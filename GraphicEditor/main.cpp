@@ -29,7 +29,6 @@ int main()
             {
                 //CircleShape shape(100.f, 3);
                 //rectangle.setPosition(event.mouseButton.x, event.mouseButton.y);
-                isDraw = true;
                 isMove = false;
                 //shape.setFillColor(Color::Cyan);
             }
