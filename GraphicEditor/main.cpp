@@ -12,17 +12,22 @@ int main()
 
     window.setVerticalSyncEnabled(true);
 
+    Graphic* rect = new ImageProxy("image.jpg");
     
-    
-    ImageReal p("image.jpg");
-    Point size = p.GetExtent();
+    /*Texture p;
+    if (!p.loadFromFile("image.jpg")) {
+        std::cerr << "Error loading image" << std::endl;
+    }*/
+    /*Point size = p.GetExtent();
     Vector2f s;
     s.x = size.x;
-    s.y = size.y;
-    RectangleShape rectangle(s);
+    s.y = size.y;*/
+    RectangleShape rectangle;
+    rectangle.setSize(rect->GetImageSize());
     rectangle.setPosition(500, 300);
     rectangle.setOutlineThickness(1.f);
     rectangle.setOutlineColor(Color::Black);
+    
 
     bool isDraw = false;
     bool isMove = false;
@@ -62,6 +67,8 @@ int main()
             {
                 isDraw = true;
                 //p.Draw(window);
+                //rectangle.setTexture(&p);
+                rect->Draw(rectangle);
             }
             else if (event.type == Event::Closed) {
                 window.close();
@@ -75,8 +82,9 @@ int main()
 
         window.clear(Color::White);
         window.draw(rectangle);
-        if(isDraw) p.Draw(window);
+        //if(isDraw) p.Draw(window);
         window.display();
     }
+    delete rect;
     return 0;
 }

@@ -6,8 +6,10 @@ public:
 	ImageProxy(const char* imageFile)
 	{
 		fileName = _strdup(imageFile);
-		extent = Point::Zero; 
-		image = 0;
+		rectangle.setPosition(500, 300);
+		rectangle.setOutlineThickness(1.f);
+		rectangle.setOutlineColor(sf::Color::Black);
+		image = nullptr;
 	}
 	virtual ~ImageProxy()
 	{
@@ -15,33 +17,31 @@ public:
 			delete image;
 		}
 	}
-	virtual void Draw(sf::RenderWindow& window)
+	virtual void Draw(sf::RectangleShape& s)
 	{
-		GetImage()->Draw(window);
+		GetImage()->Draw(s);
 	}
 	virtual void HandleMouse(sf::Event& event)
 	{
 		GetImage()->HandleMouse(event);
 	}
-	virtual const Point& GetExtent()
+	virtual const sf::Vector2f GetImageSize() override
 	{
-		if (extent == Point::Zero) {
-			extent = GetImage()->GetExtent();
-		}
-		return extent;
+		if (rectangle.getSize() == sf::Vector2f(0, 0))
+			GetImage()->GetImageSize();
+		else
+			return rectangle.getSize();
 	}
-	virtual void Load(std::istream& from) {};
-	virtual void Save(std::ostream& to) {};
 protected:
 	ImageReal* GetImage()
 	{
-		if (image == 0) {
+		if (image == nullptr) {
 			image = new ImageReal(fileName);
 		}
 		return image;
 	}
 private:
 	ImageReal* image;
-	Point extent;
+	sf::RectangleShape rectangle;
 	char* fileName;
 };

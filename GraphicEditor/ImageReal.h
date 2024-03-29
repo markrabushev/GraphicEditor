@@ -8,24 +8,18 @@ public:
 		if (!texture.loadFromFile(file)) {
 			std::cerr << "Error loading image" << std::endl;
 		}
-		sprite.setTexture(texture);
 	}
 	virtual ~ImageReal() {};
-	virtual void Draw(sf::RenderWindow& window) override
+	virtual void Draw(sf::RectangleShape& s) override
 	{
-		window.draw(sprite);
+		s.setTexture(&texture);
 	}
 	virtual void HandleMouse(sf::Event& event) {};
-	virtual const Point& GetExtent()
+	virtual const sf::Vector2f GetImageSize() override
 	{
-		Point p;
-		p.x = texture.getSize().x;
-		p.y = texture.getSize().y;
-		return p;
+		return (sf::Vector2f)texture.getSize();
 	}
-	virtual void Load(std::istream& from) {};
-	virtual void Save(std::ostream& to) {};
+
 private:
 	sf::Texture texture;
-	sf::Sprite sprite;
 };
