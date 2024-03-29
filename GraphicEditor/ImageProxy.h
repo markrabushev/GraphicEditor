@@ -32,6 +32,7 @@ public:
 		else
 			return rectangle.getSize();
 	}
+
 protected:
 	ImageReal* GetImage()
 	{
