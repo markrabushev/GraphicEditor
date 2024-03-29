@@ -12,10 +12,10 @@ int main()
 
     window.setVerticalSyncEnabled(true);
 
-    Graphic* rect = new ImageProxy("image.jpg");
+    Graphic* image = new ImageProxy("image.jpg");
 
     RectangleShape rectangle;
-    rectangle.setSize(rect->GetImageSize());
+    rectangle.setSize(image->GetImageSize());
     rectangle.setPosition(500, 300);
     rectangle.setOutlineThickness(1.f);
     rectangle.setOutlineColor(Color::Black);
@@ -43,7 +43,7 @@ int main()
             }
             else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right)
             {
-                rect->Draw(rectangle);
+                image->Draw(rectangle);
             }
             else if (event.type == Event::Closed) {
                 window.close();
@@ -59,6 +59,6 @@ int main()
         window.draw(rectangle);
         window.display();
     }
-    delete rect;
+    delete image;
     return 0;
 }

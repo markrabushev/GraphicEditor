@@ -14,7 +14,10 @@ public:
 	{
 		s.setTexture(&texture);
 	}
-	virtual void HandleMouse(sf::Event& event) {};
+	virtual void Move(float x, float y)
+	{
+		texture.setRepeated(true);
+	}
 	virtual const sf::Vector2f GetImageSize() override
 	{
 		return (sf::Vector2f)texture.getSize();
