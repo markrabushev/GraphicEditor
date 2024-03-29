@@ -6,9 +6,6 @@ public:
 	ImageProxy(const char* imageFile)
 	{
 		fileName = _strdup(imageFile);
-		/*rectangle.setPosition(500, 300);
-		rectangle.setOutlineThickness(1.f);
-		rectangle.setOutlineColor(sf::Color::Black);*/
 		image = nullptr;
 	}
 	virtual ~ImageProxy()
@@ -17,9 +14,9 @@ public:
 			delete image;
 		}
 	}
-	virtual void Draw(sf::RectangleShape& s)
+	virtual void Draw()
 	{
-		GetImage()->Draw(s);
+		GetImage()->Draw();
 	}
 	virtual void Move(float x, float y)
 	{
@@ -27,11 +24,11 @@ public:
 	}
 	virtual const sf::Vector2f GetImageSize() override
 	{
-		/*if (rectangle.getSize() == sf::Vector2f(0, 0))
-			GetImage()->GetImageSize();
-		else
-			return rectangle.getSize();*/
 		return GetImage()->GetImageSize();
+	}
+	virtual const sf::RectangleShape GetRectangle()
+	{
+		return GetImage()->GetRectangle();
 	}
 
 protected:
@@ -44,6 +41,5 @@ protected:
 	}
 private:
 	ImageReal* image;
-	//sf::RectangleShape rectangle;
 	char* fileName;
 };
