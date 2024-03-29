@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
+#include "ImageProxy.h"
 
 using namespace sf;
 
@@ -11,26 +12,42 @@ int main()
 
     window.setVerticalSyncEnabled(true);
 
-    RectangleShape rectangle(sf::Vector2f(120.f, 50.f));
-    //shape.setPosition(100, 100);
+    
+    
+    ImageReal p("image.jpg");
+    Point size = p.GetExtent();
+    Vector2f s;
+    s.x = size.x;
+    s.y = size.y;
+    RectangleShape rectangle(s);
+    rectangle.setPosition(500, 300);
     rectangle.setOutlineThickness(1.f);
     rectangle.setOutlineColor(Color::Black);
-    
+
     bool isDraw = false;
     bool isMove = false;
     float dX = 0;
     float dY = 0;
-
+    sf::Vector2i mouse_position;
     while (window.isOpen()) {
         Vector2i pos = Mouse::getPosition(window);
         Event event;
         while (window.pollEvent(event)) {
-            if (event.type == event.MouseButtonReleased && event.mouseButton.button == Mouse::Left)
+            if (event.type == event.MouseButtonReleased && event.mouseButton.button == Mouse::Left )
             {
-                //CircleShape shape(100.f, 3);
-                //rectangle.setPosition(event.mouseButton.x, event.mouseButton.y);
+                /*if (!isDraw) {
+                    startPos = sf::Vector2f(event.mouseButton.x, event.mouseButton.y);
+                    isDraw = true;
+                }
+                else {
+                    endPos = sf::Vector2f(event.mouseButton.x, event.mouseButton.y);
+                    box.setPosition(startPos);
+                    box.setOutlineThickness(1.f);
+                    box.setSize(endPos - startPos);
+                    window.draw(box);
+                    isDraw = false;
+                }*/
                 isMove = false;
-                //shape.setFillColor(Color::Cyan);
             }
             else if (event.type == event.MouseButtonPressed && event.mouseButton.button == Mouse::Left)
             {
@@ -41,6 +58,11 @@ int main()
                     isMove = true;
                 }
             }
+            else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right)
+            {
+                isDraw = true;
+                //p.Draw(window);
+            }
             else if (event.type == Event::Closed) {
                 window.close();
             }
@@ -50,8 +72,10 @@ int main()
             rectangle.setPosition(pos.x - dX, pos.y - dY);
         }
 
+
         window.clear(Color::White);
         window.draw(rectangle);
+        if(isDraw) p.Draw(window);
         window.display();
     }
     return 0;
