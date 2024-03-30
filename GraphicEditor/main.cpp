@@ -7,11 +7,17 @@ using namespace sf;
 
 int main()
 {
-    RenderWindow window(VideoMode(1200, 800), L"Графический редактор", Style::Default);
+    RenderWindow window(VideoMode(1300, 900), L"Графический редактор", Style::Default);
 
     window.setVerticalSyncEnabled(true);
 
     Graphic* image = new ImageProxy("image.jpg");
+
+    sf::Clock clock;
+    sf::Time doubleClickDelay = sf::milliseconds(500);
+
+    bool isDoubleClick = false;
+    sf::Time lastClickTime;
 
     bool isMove = false;
     float dX = 0;
@@ -36,7 +42,17 @@ int main()
             }
             else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right)
             {
-                image->Draw();
+                if (clock.getElapsedTime() - lastClickTime < doubleClickDelay)
+                {
+                    isDoubleClick = true;
+                }
+                else
+                {
+                    isDoubleClick = false;
+                }
+
+                lastClickTime = clock.getElapsedTime();
+                
             }
             else if (event.type == Event::Closed) {
                 window.close();
@@ -45,6 +61,10 @@ int main()
         if (isMove)
         {
             image->Move(pos.x - dX, pos.y - dY);
+        }
+        if (isDoubleClick)
+        {
+            image->Draw();
         }
 
         window.clear(Color::White);
